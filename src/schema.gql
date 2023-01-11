@@ -10,5 +10,6 @@ type Book {
 }
 
 type Query {
+  getUsers: String!
   hello(id: String!, name: String!, price: Float!): Book!
 }

@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "ROLE" AS ENUM ('USER', 'ADMIN', 'SUPER_ADMIN', 'ACCOUNT');
+
 -- CreateTable
 CREATE TABLE "Post" (
     "id" SERIAL NOT NULL,
@@ -16,6 +19,8 @@ CREATE TABLE "Profile" (
     "id" SERIAL NOT NULL,
     "bio" TEXT,
     "userId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
@@ -25,6 +30,9 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
     "name" TEXT,
+    "role" "ROLE" NOT NULL DEFAULT 'USER',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

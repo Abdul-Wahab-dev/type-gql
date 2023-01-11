@@ -3,11 +3,12 @@ import { buildSchema } from "type-graphql";
 import { ApolloServer } from "apollo-server-express";
 import "reflect-metadata";
 import { BookResolver } from "./resolvers/BookResolver";
+import { UserResolver } from "./resolvers/UserResolver";
 import * as path from "path";
 const main = async () => {
   // build SDL
   const schema = await buildSchema({
-    resolvers: [BookResolver],
+    resolvers: [BookResolver, UserResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
 
