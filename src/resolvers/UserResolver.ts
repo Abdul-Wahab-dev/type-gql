@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, Authorized } from "type-graphql";
 import { PrismaClient } from "@prisma/client";
 import { User } from "../schema/User";
 import { UserResponse } from "../responses/UserResponse";
@@ -23,17 +23,18 @@ export class UserResolver {
   // @desc               get users
   // @access             Public
   @Query(() => UserResponse)
+  @Authorized()
   async getUsers(): Promise<UserResponse> {
     try {
-      // const [userList, totalUsers] = await prisma.$transaction([
-      //   prisma.user.findMany(),
-      //   prisma.user.count(),
-      // ]);
+      const [userList, totalUsers] = await prisma.$transaction([
+        prisma.user.findMany(),
+        prisma.user.count(),
+      ]);
 
       // console.log(userList, totalUsers);
       return {
-        users: user,
-        total: 10,
+        users: userList,
+        total: totalUsers,
       };
     } catch (err) {}
 
@@ -62,12 +63,11 @@ export class UserResolver {
   @Mutation((returns) => User)
   async registerUser(@Arg("input") input: userInput): Promise<User> {
     // 1) check  user exist or not
-    const existedUser = await prisma.user.findOne({
+    const existedUser = await prisma.user.findUnique({
       where: {
         email: input.email,
       },
     });
-
     // 2) throw error if user exist
     if (existedUser) {
       throw new Error("User ALread exist!");
@@ -93,7 +93,7 @@ export class UserResolver {
   @Mutation(() => String)
   async login(@Arg("input") input: LoginInput): Promise<String> {
     // 1) check user exist
-    const existedUser = await prisma.user.findOne({
+    const existedUser = await prisma.user.findUnique({
       where: {
         email: input.email,
       },
@@ -102,7 +102,7 @@ export class UserResolver {
     // 2) throw error if user not exist
     if (
       !existedUser ||
-      !(await compare(existedUser.password, input.password))
+      !(await compare(input.password, existedUser.password))
     ) {
       throw new Error("User or passowrd incorrect");
     }
@@ -121,7 +121,6 @@ export class UserResolver {
         expiresIn: 3600,
       }
     );
-
     return token;
   }
 }

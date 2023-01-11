@@ -12,6 +12,7 @@ async function main() {
       email: "test1@gmail.com",
       name: "test1",
       id: 1,
+      password: "12345678",
       profile: {
         create: {
           id: 1,

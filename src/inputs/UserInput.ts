@@ -3,7 +3,7 @@ import { ROLE } from "../enums/UserEnum";
 
 @InputType()
 export class userInput {
-  @Field(() => Number)
+  @Field(() => Number, { nullable: true })
   id?: number;
 
   @Field(() => String)
