@@ -9,7 +9,55 @@ type Book {
   price: Float!
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+type Mutation {
+  addUser(input: userInput!): User!
+  updateUser(input: userInput!): UserResponse!
+}
+
+type Post {
+  authorId: Float!
+  content: String!
+  createdAt: DateTime!
+  id: Float!
+  published: Boolean!
+  title: String!
+  updatedAt: DateTime!
+}
+
 type Query {
-  getUsers: String!
+  getUsers: UserResponse!
   hello(id: String!, name: String!, price: Float!): Book!
+}
+
+enum ROLE {
+  ACCOUNT
+  ADMIN
+  SUPER_ADMIN
+  USER
+}
+
+type User {
+  email: String!
+  id: Float!
+  name: String!
+  password: String
+  posts: [Post!]
+  role: ROLE!
+}
+
+type UserResponse {
+  total: Float!
+  users: [User!]!
+}
+
+input userInput {
+  email: String!
+  id: Float!
+  name: String!
+  role: ROLE!
 }

@@ -1,10 +1,10 @@
 import { registerEnumType } from "type-graphql";
 
 export enum ROLE {
-  ADMIN,
-  SUPER_ADMIN,
-  USER,
-  ACCOUNT,
+  ADMIN = "ADMIN",
+  SUPER_ADMIN = "SUPER_ADMIN",
+  USER = "USER",
+  ACCOUNT = "ACCOUNT",
 }
 
 registerEnumType(ROLE, {

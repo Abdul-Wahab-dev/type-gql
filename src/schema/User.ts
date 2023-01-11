@@ -7,21 +7,17 @@ export class User {
   @Field(() => Number)
   id: number;
 
-  @Field(() => Date)
-  createdAt?: Date;
-
-  @Field(() => Date)
-  updatedAt?: Date;
-
   @Field(() => String)
   name: string;
 
   @Field(() => String)
   email: string;
 
-  @Field(() => [Post])
+  @Field(() => [Post], { nullable: true })
   posts?: Post[];
 
   @Field((type) => ROLE)
-  role: ROLE;
+  role: string;
+
+  password?: string;
 }

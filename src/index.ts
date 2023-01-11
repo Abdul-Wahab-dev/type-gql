@@ -9,6 +9,7 @@ const main = async () => {
   // build SDL
   const schema = await buildSchema({
     resolvers: [BookResolver, UserResolver],
+    validate: false,
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
 
